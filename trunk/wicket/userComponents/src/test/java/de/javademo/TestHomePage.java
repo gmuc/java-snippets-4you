@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Simple test using the WicketTester
+ * Simple test using the WicketTester ttt
  */
 public class TestHomePage
 {
