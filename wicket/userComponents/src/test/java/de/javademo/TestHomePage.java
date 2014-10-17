@@ -1,5 +1,7 @@
 package de.javademo;
 
+import de.javademo.tabwindow.StartTabList2Level;
+import de.javademo.tabwindow.WicketApplication;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,9 +23,9 @@ public class TestHomePage
 	public void homepageRendersSuccessfully()
 	{
 		//start and render the test page
-		tester.startPage(HomePage.class);
+		tester.startPage(StartTabList2Level.class);
 
 		//assert rendered page class
-		tester.assertRenderedPage(HomePage.class);
+		tester.assertRenderedPage(StartTabList2Level.class);
 	}
 }
