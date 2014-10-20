@@ -101,8 +101,8 @@ public class TabList2Level extends Panel {
      * @param selectedL1 ausgewählter Tab in Level1
      * @param selectedL2 ausgewählter Tab in Level2
      * @param newPanelMap Container der die Panels enthält
-     * @param level1_label Liste der Labels für Level1
-     * @param level2_label Liste der Labels für Level2
+     * @param level1Label Liste der Labels für Level1
+     * @param level2Label Liste der Labels für Level2
      * @param externWrapperName Name des Wrappers der für TabList2Level extern verwendet wird
      * @param externPanelName Name des Panels der für TabList2Level extern verwendet wird
      */
@@ -111,13 +111,21 @@ public class TabList2Level extends Panel {
                          final int selectedL1,
                          final int selectedL2,
                          AbstractReloadablePanelMap newPanelMap,
-                         final ArrayList<String> level1_label,
-                         final ArrayList<String> level2_label,
+                         final ArrayList<String> level1Label,
+                         final ArrayList<String> level2Label,
                          String externWrapperName,
-                         String externPanelName) {
+                         String externPanelName) throws LevelTabOutOfRageException{
 
         // super damit die Basisklasse Panel einen validen Zustand zum Beginn der Verarbeitung hat
         super(id);
+
+        if( selectedL1 < 0 || selectedL1 > level1Label.size()){
+            throw new LevelTabOutOfRageException(1, selectedL1, level1Label.size());
+        }
+
+        if( selectedL2 < 0 || selectedL2 > level2Label.size()){
+            throw new LevelTabOutOfRageException(2, selectedL2, level2Label.size());
+        }
 
         wrapperName = externWrapperName;
         panelName = externPanelName;
@@ -134,7 +142,7 @@ public class TabList2Level extends Panel {
                 final int currentL1 = item.getIndex();
 
                 // Label mit der definierten Beschriftung erzeugen
-                String nameLabel = level1_label.get(currentL1);
+                String nameLabel = level1Label.get(currentL1);
                 Label navLabel1 = new Label("navLevel1", new Model(nameLabel));
 
                 // ??? soll der aktuelle Tab als ausgewählt erscheinen ???
@@ -179,7 +187,7 @@ public class TabList2Level extends Panel {
 
                 final int currentL2 = item.getIndex();
 
-                String nameLabel = level2_label.get(currentL2);
+                String nameLabel = level2Label.get(currentL2);
                 Label navLabel2 = new Label("navLevel2", new Model(nameLabel));
 
                 if ( currentL2 == focusL2 ) {
