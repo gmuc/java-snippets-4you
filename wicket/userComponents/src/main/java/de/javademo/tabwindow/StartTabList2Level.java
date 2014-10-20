@@ -67,12 +67,19 @@ public class StartTabList2Level extends WebPage {
 
         ReloadableTestPanelMap reloadableTestPanelMap = new ReloadableTestPanelMap(panelMap, "reloadOnTab2Change");
 
-        TabList2Level tabList = new TabList2Level(
-                "listNavigation",
-                0,0,
-                reloadableTestPanelMap,
-                tab1labelList, tab2labelList,
-                "tabListWrapper","replacedPanel");
+
+        TabList2Level tabList = null;
+        try {
+            tabList = new TabList2Level(
+                    "listNavigation",
+                    0,5,
+                    reloadableTestPanelMap,
+                    tab1labelList, tab2labelList,
+                    "tabListWrapper","replacedPanel");
+
+        } catch (LevelTabOutOfRageException e) {
+            e.printStackTrace();
+        }
 
         tabList.setOutputMarkupId(true);
 
