@@ -2,12 +2,13 @@ package de.javademo.tabwindow;
 
 import org.apache.wicket.markup.html.panel.Panel;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Created by mucha on 26.09.14.
  */
-public abstract class AbstractReloadablePanelMap {
+public abstract class AbstractReloadablePanelMap implements Serializable{
 
     protected HashMap<String, Panel> panelMap;
 
