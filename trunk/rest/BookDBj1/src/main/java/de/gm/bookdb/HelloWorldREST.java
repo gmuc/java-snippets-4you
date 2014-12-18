@@ -15,7 +15,7 @@ public class HelloWorldREST {
 	public Response responseMsg( @PathParam("parameter") String parameter,
 			@DefaultValue("Nothing to say") @QueryParam("value") String value) {
 
-		String output = "Hello33 from: " + parameter + " : " + value;
+		String output = "Hello33aaa from: " + parameter + " : " + value;
 
 		return Response.status(200).entity(output).build();
 	}
