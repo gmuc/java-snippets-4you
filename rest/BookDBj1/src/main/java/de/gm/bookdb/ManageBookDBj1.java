@@ -1,7 +1,6 @@
 package de.gm.bookdb;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,36 +13,43 @@ import javax.ws.rs.core.Response;
 
 import org.clapper.util.misc.FileHashMap;
 
-
-
 @Path("/jsonServices")
 public class ManageBookDBj1 {
 	
 	public ManageBookDBj1() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	Map bookDir;
-	
-
-	public ManageBookDBj1(Map bookDir) {
-		super();
 		try {
-			this.bookDir = new FileHashMap("/local/book_dir.map");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			this.bookDir = new FileHashMap<Integer, String>("/local/book_dir.map", 0);
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	FileHashMap<Integer, String> bookDir;
+	
+
+	public ManageBookDBj1(FileHashMap<Integer, String> bookDir) {
+		super();
+			this.bookDir = bookDir;
 	}
 	
 	@GET
 	@Path("/print/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Book produceJSON( @PathParam("id") String id ) {
+	public Book produceJSON(@PathParam("id") String id) {
 
-		Book st = new Book( "Perl Hacks", "chromatic", Integer.valueOf(id) );
+		Integer key = Integer.valueOf(id);
+		String data = (String) bookDir.get( key );
+		
+		Book st = null;
 
+		if (data != null) {
+			String[] bookData = data.split(":");
+
+			st = new Book(bookData[0], bookData[1], Integer.valueOf(id));
+		}
+		
 		return st;
 	}
 	
@@ -53,6 +59,19 @@ public class ManageBookDBj1 {
 	public Response consumeJSON( Book book ) {
 
 		String output = book.toString();
+		
+		Integer id = book.getId();
+		String bookData = book.getAuthor() + ":" + book.getTitle();
+		
+		bookDir.put(id, bookData);
+
+		try {
+			bookDir.save();
+			bookDir.close();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return Response.status(200).entity(output).build();
 	}
