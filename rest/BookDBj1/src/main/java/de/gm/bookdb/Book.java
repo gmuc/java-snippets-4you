@@ -1,5 +1,8 @@
 package de.gm.bookdb;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Book {
 
 	private int id;
