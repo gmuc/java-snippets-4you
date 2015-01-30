@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -28,7 +29,6 @@ public class ManageBookDBj1 {
 
 	FileHashMap<Integer, String> bookDir;
 	
-
 	public ManageBookDBj1(FileHashMap<Integer, String> bookDir) {
 		super();
 			this.bookDir = bookDir;
@@ -36,7 +36,7 @@ public class ManageBookDBj1 {
 	
 	@GET
 	@Path("/print/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML} )
 	public Book produceJSON(@PathParam("id") String id) {
 
 		Integer key = Integer.valueOf(id);
@@ -49,10 +49,13 @@ public class ManageBookDBj1 {
 
 			st = new Book(bookData[0], bookData[1], Integer.valueOf(id));
 		}
+		else{
+			throw new WebApplicationException(404);
+		}
 		
 		return st;
 	}
-	
+
 	@POST
 	@Path("/send")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -75,5 +78,4 @@ public class ManageBookDBj1 {
 
 		return Response.status(200).entity(output).build();
 	}
-
 }
